@@ -1,0 +1,48 @@
+[15-Feb-2025 02:39:24 Europe/Berlin] POST request received: Array
+(
+    [pengajuan_id] => 13
+    [action] => approve
+)
+
+[15-Feb-2025 02:39:24 Europe/Berlin] Session data: Array
+(
+    [user_id] => 2
+    [user_type] => admin
+    [username] => Hendrik Wijaya
+    [admin_role] => Head of Production
+)
+
+[15-Feb-2025 02:39:24 Europe/Berlin] Debug - Approving request: pengajuan_id=13, admin_id=2
+[15-Feb-2025 02:39:24 Europe/Berlin] Error in admin_base.php: Column 'user_id' cannot be null
+[15-Feb-2025 02:39:49 Europe/Berlin] POST request received: Array
+(
+    [pengajuan_id] => 13
+    [action] => approve
+)
+
+[15-Feb-2025 02:39:49 Europe/Berlin] Session data: Array
+(
+    [user_id] => 3
+    [user_type] => admin
+    [username] => Agnes Kurnia
+    [admin_role] => Co-Founder
+)
+
+[15-Feb-2025 02:39:49 Europe/Berlin] Debug - Approving request: pengajuan_id=13, admin_id=3
+[15-Feb-2025 02:39:49 Europe/Berlin] Error in admin_base.php: Column 'user_id' cannot be null
+[15-Feb-2025 03:33:02 Europe/Berlin] POST request received: Array
+(
+    [pengajuan_id] => 13
+    [action] => approve
+)
+
+[15-Feb-2025 03:33:02 Europe/Berlin] Session data: Array
+(
+    [user_id] => 3
+    [user_type] => admin
+    [username] => Agnes Kurnia
+    [admin_role] => Co-Founder
+)
+
+[15-Feb-2025 03:33:02 Europe/Berlin] Debug - Approving request: pengajuan_id=13, admin_id=3
+[15-Feb-2025 03:33:02 Europe/Berlin] Error in admin_base.php: Column 'user_id' cannot be null

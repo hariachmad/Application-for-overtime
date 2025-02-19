@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once(__DIR__ . "/repository/databaseService.php");
 require_once(__DIR__ ."/admin/controllers/PengajuanLemburController.php");
@@ -12,40 +13,16 @@ $pattern = "#^/bluelake/(.*)$#";
 preg_match($pattern, parse_url($requestUri, PHP_URL_PATH), $matches);
 
 if ($requestMethod == "POST") {
-    $username = Utils::sanitize_input($_POST['username']);
-    $password = $_POST['password'];
+    $form_type = $_POST['form_type'];
 
-    if (empty($username) || empty($password)) {
-        $error_message = "Username dan password harus diisi!";
-    } else {
-        error_log("Login attempt for username: " . $username);
-
-        $admin = Utils::check_credentials($conn, 'admin', $username, $password);
-        if ($admin) {
-            session_regenerate_id(true);
-            $_SESSION['user_id'] = $admin['admin_id'];
-            $_SESSION['user_type'] = 'admin';
-            $_SESSION['username'] = $admin['username'];
-            $_SESSION['admin_role'] = $admin['role'];
-
-            header('Location: admin/index.php');
-            exit();
-        }
-
-        $karyawan = Utils::check_credentials($conn, 'karyawan', $username, $password);
-        if ($karyawan) {
-            session_regenerate_id(true);
-            $_SESSION['user_id'] = $karyawan['karyawan_id'];
-            $_SESSION['user_type'] = 'karyawan';
-            $_SESSION['username'] = $karyawan['username'];
-
-            header("Location: user/index.php");
-            exit();
-        }
-
-        $error_message = "Username atau password salah!";
-        error_log("Authentication failed for username: " . $username);
-        $conn->close();
+    switch ($form_type) {
+        case 'login':
+            $controller = new LoginController();
+            $controller->index($_POST['username'],$_POST['password']);
+            break;
+        default:
+            echo htmlspecialchars('400 POST NOT FOUND');
+            break;
     }
 }
 

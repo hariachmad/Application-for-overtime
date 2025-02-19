@@ -143,7 +143,8 @@ session_start();
             </div>
         <?php endif; ?>
 
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+        <form action="index.php" method="POST">
+            <input type="hidden" name="form_type" value="login">
             <div class="form-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" placeholder="Username" required>

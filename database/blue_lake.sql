@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2025 at 02:46 AM
+-- Generation Time: Feb 19, 2025 at 03:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bluelake`
+-- Database: `blue_lake`
 --
 
 -- --------------------------------------------------------
@@ -174,14 +174,6 @@ CREATE TABLE `pengajuan_lembur` (
 --
 
 INSERT INTO `pengajuan_lembur` (`pengajuan_id`, `karyawan_id`, `tanggal_pengajuan`, `tanggal_lembur`, `jenis_proyek`, `nama_proyek`, `jam_mulai`, `jam_selesai`, `durasi_lembur`, `alasan_lembur`, `daftar_pekerjaan`, `status_pengajuan`, `disetujui_oleh`, `tanggal_persetujuan`, `co_founder_approval_by`, `co_founder_approval_time`, `hrga_staff_approval`, `hrga_staff_approval_by`, `hrga_staff_approval_time`, `ditolak_oleh`, `tanggal_penolakan`, `approved_by`, `rejected_by`, `last_updated_by`, `last_approval`, `approval_status`, `foto_sebelum_path`, `foto_sesudah_path`) VALUES
-(3, 1, '2025-02-10 07:08:50', '2025-02-01', '', NULL, '00:00:00', '00:00:00', 0, 'A', 'AA', 'disetujui', 1, '2025-02-10 22:15:52', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 1, '2025-02-10 07:21:47', '2025-02-01', '', NULL, '00:00:00', '00:00:00', 0, 'A', 'AA', 'ditolak', 1, '2025-02-10 22:15:56', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(5, 1, '2025-02-11 02:48:26', '2025-02-08', '', NULL, '00:00:00', '00:00:00', 3, 'a', 'a', 'disetujui', 1, '2025-02-10 22:15:57', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 1, '2025-02-11 02:57:56', '2025-02-01', 'furniture', NULL, '00:00:00', '00:00:00', 2, 'a', 'a', 'ditolak', 1, '2025-02-10 22:15:57', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(7, 1, '2025-02-11 03:07:24', '2025-02-08', '', NULL, '16:59:00', '22:59:00', 6, 'aa', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 1, '2025-02-12 03:48:14', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 1, '2025-02-12 02:52:12', '2025-02-01', '', NULL, '17:00:00', '18:00:00', 1, 'a', 'a', 'ditolak', NULL, NULL, 3, '2025-02-12 04:44:49', 1, 5, '2025-02-12 04:27:23', 1, '2025-02-13 02:17:12', NULL, 'Ditolak oleh Head of Production', NULL, NULL, NULL, NULL, NULL),
-(9, 1, '2025-02-12 02:52:23', '2025-02-01', '', NULL, '17:00:00', '18:00:00', 1, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 1, 5, '2025-02-12 04:35:15', 3, '2025-02-12 04:44:50', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(10, 1, '2025-02-12 04:33:22', '2025-02-01', '', NULL, '11:33:00', '11:47:00', 0, 'q', 'q', 'disetujui', 1, '2025-02-12 22:45:12', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Disetujui oleh Head of Production', NULL, NULL),
 (11, 1, '2025-02-14 03:16:08', '2025-02-01', 'sipil', 'a', '10:15:00', '12:25:00', 2, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 5, '2025-02-14 08:08:34', NULL, NULL, NULL, NULL, 'Ditolak oleh HRGA Staff', 'uploads/1739502968_before_Blush_Deluxe.jpg', 'uploads/1739502968_after_Family_Paradise.jpg'),
 (12, 1, '2025-02-14 08:49:16', '2025-02-05', 'lainnya', 'a', '15:50:00', '17:55:00', 2, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 3, '2025-02-14 09:50:42', NULL, NULL, NULL, NULL, 'Ditolak oleh Co-Founder', 'uploads/1739522956_before_at1.jpg', 'uploads/1739522956_after_at2.jpg'),
 (13, 1, '2025-02-14 09:20:32', '2025-02-06', 'furniture', 'a', '16:20:00', '18:30:00', 2, 'a', 'a', 'pending', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uploads/1739524832_before_background.png', 'uploads/1739524832_after_banner2.jpg'),

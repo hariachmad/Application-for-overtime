@@ -131,7 +131,7 @@ session_start();
 <body>
     <div class="logo-container">
         <div class="logo-text">
-            <img src="admin/image/bluelake logo.png" alt="BlueLake Logo" class="logo-image">
+            <img src="public/image/bluelake logo.png" alt="BlueLake Logo" class="logo-image">
             BlueLake
         </div>
     </div>

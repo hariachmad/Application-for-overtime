@@ -1,7 +1,7 @@
 <?php
 
-require_once 'models/PengajuanLemburModel.php';
-require_once '../repository/databaseService.php';
+require_once(__DIR__."/../models/PengajuanLemburModel.php");
+require_once(__DIR__."/../../repository/databaseService.php");
 
 class PengajuanLemburController
 {

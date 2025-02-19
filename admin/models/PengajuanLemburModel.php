@@ -32,6 +32,10 @@ class PengajuanLemburModel
     LEFT JOIN admin a2 ON pl.ditolak_oleh = a2.admin_id
     ORDER BY pl.tanggal_pengajuan DESC";
 
+        if (!empty($search)) {
+            $query .= " WHERE k.username LIKE '%$search%'";
+        }
+
         $result = $this->conn->query($query);
 
         if (!$result) {

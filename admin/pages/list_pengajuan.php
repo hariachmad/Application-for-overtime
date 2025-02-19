@@ -203,7 +203,7 @@ if (!$result) {
     </style>
 </head>
 <body>
-    <?php include 'admin_navbar.php'; ?>
+    <?php include '../components/admin_navbar.php'; ?>
     <div class="content">
         <form class="search-form" action="" method="GET">
             <input type="text" name="search" placeholder="Cari nama karyawan..." value="<?php echo htmlspecialchars($search); ?>">
@@ -334,14 +334,14 @@ if (!$result) {
         // Fungsi untuk menyetujui lembur
         function approveOvertime(id) {
             if(confirm('Apakah Anda yakin ingin menyetujui pengajuan lembur ini?')) {
-                window.location.href = `list_pengajuan.php?id=${id}&action=approve`;
+                window.location.href = `./pages/list_pengajuan.php?id=${id}&action=approve`;
             }
         }
 
         // Fungsi untuk menolak lembur
         function rejectOvertime(id) {
             if(confirm('Apakah Anda yakin ingin menolak pengajuan lembur ini?')) {
-                window.location.href = `list_pengajuan.php?id=${id}&action=reject`;
+                window.location.href = `./pages/list_pengajuan.php?id=${id}&action=reject`;
             }
         }
     </script>

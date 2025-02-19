@@ -68,7 +68,7 @@
     </style>
 </head>
 <body>
-    <?php require(realpath(dirname(__FILE__)."../../admin_navbar.php")) ?>
+    <?php require(realpath(dirname(__FILE__)."../../components/admin_navbar.php")) ?>
     
     <h1>Daftar Pengajuan Lembur</h1>
     <table>
@@ -168,10 +168,11 @@
                     'Apakah Anda yakin ingin menyetujui pengajuan ini?' : 
                     'Apakah Anda yakin ingin menolak pengajuan ini?';
                 
+                
                 if (confirm(confirmMsg)) {
                     const formData = new FormData(this);
                     
-                    fetch(window.location.href, {
+                    fetch("http://localhost/bluelake/admin/index.php?post-pengajuan-lembur", {
                         method: 'POST',
                         body: formData,
                         credentials: 'same-origin'

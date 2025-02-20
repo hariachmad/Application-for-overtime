@@ -1,8 +1,4 @@
 <?php
-session_start();
-
-$_SESSION['username'] = 'john_doe';
-$_SESSION['role'] = 'admin';
 
 ?>
 
@@ -166,7 +162,7 @@ $_SESSION['role'] = 'admin';
                     </svg>
                 </a>
                 <ul class="submenu">
-                    <li class="submenu-item"><a href="#" class="submenu-link">Data Karyawan</a></li>
+                    <li class="submenu-item"><a href="/bluelake/admin/data-karyawan" class="submenu-link">Data Karyawan</a></li>
                     <li class="submenu-item"><a href="#" class="submenu-link">Tambah Karyawan</a></li>
                 </ul>
             </li>

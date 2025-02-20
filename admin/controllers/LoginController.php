@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 class LoginController
 {
 
@@ -23,7 +25,7 @@ class LoginController
                 $_SESSION['username'] = $admin['username'];
                 $_SESSION['admin_role'] = $admin['role'];
 
-                header('Location: admin/index.php');
+                header('Location: /bluelake/admin/index.php');
                 exit();
             }
 
@@ -34,7 +36,7 @@ class LoginController
                 $_SESSION['user_type'] = 'karyawan';
                 $_SESSION['username'] = $karyawan['username'];
 
-                header("Location: user/index.php");
+                header("Location: /bluelake/user/index.php");
                 exit();
             }
 

@@ -1,10 +1,10 @@
 <?php
-session_start();
-
 require_once(__DIR__ . "/repository/databaseService.php");
 require_once(__DIR__ ."/admin/controllers/PengajuanLemburController.php");
 require_once(__DIR__ ."/admin/controllers/ListPengajuanController.php");
 require_once(__DIR__ ."/utils/Utils.php");
+require_once(__DIR__ ."/admin/controllers/LoginController.php");
+require_once(__DIR__ ."/admin/controllers/DataKaryawanController.php");
 
 $error_message = "";
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -39,7 +39,12 @@ switch ($matches[1]) {
         $controller = new ListPengajuanController();
         $controller->index();
         break;
+    case "admin/data-karyawan":
+        $controller = new DataKaryawanController();
+        $controller->index();
+        break;
     default:
+        var_dump($matches);
         echo htmlspecialchars('404 NOT FOUND');
 }
 ?>

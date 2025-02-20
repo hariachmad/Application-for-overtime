@@ -7,7 +7,7 @@ private $username = "root"; // Change this to your database username
 private $password = ""; // Change this to your database password
 private $dbname = "blue_lake";
 
-// Create connection
+// Create conneection
 private $db;
 
 public function getConn(){

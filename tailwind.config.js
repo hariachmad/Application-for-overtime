@@ -1,9 +1,9 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./*.{php,html,js}"], // Sesuaikan dengan file yang akan Anda gunakan
-    theme: {
-      extend: {colors: {
-        'background': '#1A1F2E'},
-    },
-    plugins: [],
-  }
+  content: ["./src/**/*.{html,js,php}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
 }
+

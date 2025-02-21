@@ -31,6 +31,9 @@ switch ($matches[1]) {
     case "HOME":
         require(__DIR__ . "/login.php");
         break;
+    case "src/index.html":
+        require(__DIR__ . "src/index.html");
+        break;
     case "admin/index.php":
         $controller = new PengajuanLemburController();
         $controller->index();

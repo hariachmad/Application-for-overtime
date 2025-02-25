@@ -43,6 +43,7 @@ class LoginController
             $error_message = "Username atau password salah!";
             error_log("Authentication failed for username: " . $username);
             $conn->close();
+            header("Location: /bluelake/index.php");
         }
     }
 }

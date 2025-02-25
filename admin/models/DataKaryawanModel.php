@@ -23,6 +23,18 @@ class DataKaryawanModel
 
         return $result;
     }
+
+    public function createUser($username,$password,$divisi){
+        $query = "INSERT INTO karyawan (username, password, divisi) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('sss',$username_, $password_, $divisi_);
+
+        $username_= $username;
+        $password_= $password;
+        $divisi_= $divisi;
+        
+        return $stmt->execute();
+    }
 }
 
 ?>

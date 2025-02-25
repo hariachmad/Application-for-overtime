@@ -56,9 +56,9 @@
             <table style="width: 80%;">
                 <thead class="bg-gray-200">
                     <tr>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">ID</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Nama</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Divisi</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-white">ID</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-white">Nama</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-white">Divisi</th>
                     </tr>
                 </thead>
                 <tbody>

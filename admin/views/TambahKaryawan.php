@@ -100,9 +100,6 @@
     const dropdown = document.getElementById('dropdown');
     dropdown.addEventListener("change", function () {
       divisi = dropdown.value;
-      console.log("username : ", username);
-      console.log("password : ", password);
-      console.log("divisi: ", divisi);
     })
 
 

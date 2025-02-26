@@ -52,13 +52,15 @@
         <div style=" font-family: 'Courier New', Courier, monospace; margin-top: 10px;" class="title text-3xl">
             <h4>Data Karyawan</h4>
         </div>
-        <div style="margin-right: 120px;padding-inline: 10px; margin-top: 40px; width: 100%; display: flex; justify-content: center;">
+        <div
+            style="margin-right: 120px;padding-inline: 10px; margin-top: 40px; width: 100%; display: flex; justify-content: center;">
             <table style="width: 80%;">
                 <thead class="bg-gray-200">
                     <tr>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-white">ID</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-white">Nama</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium text-white">Divisi</th>
+                        <th class="px-4 py-2 text-center text-sm font-medium text-white">ID</th>
+                        <th class="px-4 py-2 text-center text-sm font-medium text-white">Nama</th>
+                        <th class="px-4 py-2 text-center text-sm font-medium text-white">Divisi</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium text-white"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,8 +68,20 @@
                         <?php while ($row = $result->fetch_assoc()) { ?>
                             <tr class="border-t hover:bg-gray-50">
                                 <td class="px-4 py-2 text-sm text-gray-700"><?php echo $row['karyawan_id']; ?></td>
-                                <td class="px-4 py-2 text-sm text-gray-700"><?php echo $row['username']; ?></td>
-                                <td class="px-4 py-2 text-sm text-gray-700"><?php echo $row['divisi']; ?></td>
+                                <td class="px-4 py-2 text-sm text-gray-700 w-[250px] text-center"><span
+                                        class="text"><?php echo $row['username']; ?></span><input type="text"
+                                        style="display: none;" class="editable text-center"
+                                        value="<?php echo $row['username']; ?>"></td>
+                                <td class="px-4 py-2 text-sm text-gray-700 w-[300px] text-center"><span
+                                        class="text"><?php echo $row['divisi']; ?></span><input type="text"
+                                        style="display: none;" class="editable text-center"
+                                        value="<?php echo $row['divisi']; ?>"></td>
+                                <td class="flex justify-center"><button onCLick="editRow(this)"
+                                        class=" bg-blue-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">Edit</button><button
+                                        onCLick="saveRow(this)" style="display: none;"
+                                        class=" save-btn bg-green-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-green-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">Save</button><button
+                                        class="deleteBtn ml-4 bg-red-500 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">Delete</button>
+                                </td>
                             </tr>
                         <?php } ?>
                     <?php } ?>
@@ -76,6 +90,48 @@
         </div>
 
     </div>
+    <script>
+
+        const deleteButtons = document.querySelectorAll('.deleteBtn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const row = this.closest('tr');
+                row.remove();
+            });
+        });
+
+        function editRow(button) {
+            const row = button.closest('tr');
+
+            const textFields = row.querySelectorAll('.text');
+            const inputFields = row.querySelectorAll('.editable');
+            textFields.forEach(field => field.style.display = 'none');
+            inputFields.forEach(field => field.style.display = 'inline');
+
+            button.style.display = 'none';
+            row.querySelector('.save-btn').style.display = 'inline';
+        }
+
+        function saveRow(button) {
+            const row = button.closest('tr');
+
+            const textFields = row.querySelectorAll('.text');
+            const inputFields = row.querySelectorAll('.editable');
+
+            inputFields.forEach((field, index) => {
+                textFields[index].textContent = field.value;
+                textFields[index].style.display = 'inline';
+                field.style.display = 'none';
+            });
+
+            button.style.display = 'none';
+            row.querySelector('button').style.display = 'inline';
+        }
+    </script>
+
+
+
 </body>
 
 </html>

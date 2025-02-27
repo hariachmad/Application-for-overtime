@@ -1,11 +1,11 @@
 <?php
 require_once(__DIR__ . "/repository/databaseService.php");
-require_once(__DIR__ ."/admin/controllers/PengajuanLemburController.php");
-require_once(__DIR__ ."/admin/controllers/ListPengajuanController.php");
-require_once(__DIR__ ."/utils/Utils.php");
-require_once(__DIR__ ."/admin/controllers/LoginController.php");
-require_once(__DIR__ ."/admin/controllers/DataKaryawanController.php");
-require_once(__DIR__ ."/admin/controllers/TambahKaryawanController.php");
+require_once(__DIR__ . "/admin/controllers/PengajuanLemburController.php");
+require_once(__DIR__ . "/admin/controllers/ListPengajuanController.php");
+require_once(__DIR__ . "/utils/Utils.php");
+require_once(__DIR__ . "/admin/controllers/LoginController.php");
+require_once(__DIR__ . "/admin/controllers/DataKaryawanController.php");
+require_once(__DIR__ . "/admin/controllers/TambahKaryawanController.php");
 
 $error_message = "";
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -17,13 +17,18 @@ if ($requestMethod == "POST") {
     $form_type = $_POST['form_type'];
 
     switch ($form_type) {
+        case 'delete':
+            $id = $_POST['id'];
+            $controller = new DataKaryawanController();
+            $controller->delete($id);
+            break;
         case 'login':
             $controller = new LoginController();
-            $controller->index($_POST['username'],$_POST['password']);
+            $controller->index($_POST['username'], $_POST['password']);
             break;
         case 'register':
             $controller = new TambahKaryawanController();
-            $result = $controller->createKaryawan($_POST['username'],$_POST['password'],$_POST['divisi']);
+            $result = $controller->createKaryawan($_POST['username'], $_POST['password'], $_POST['divisi']);
             if ($result) {
                 $controller->index();
             }

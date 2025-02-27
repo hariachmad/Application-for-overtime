@@ -13,6 +13,17 @@ class DataKaryawanController
         require realpath(dirname(__FILE__) . "../../views/DataKaryawan.php");
     }
 
+    public function delete($id)
+    {
+        $dataKaryawanModel = new DataKaryawanModel();
+        $result = $dataKaryawanModel->deleteUser($id);
+        if($result){
+            require realpath(dirname(__FILE__) . "../../views/DataKaryawan.php");
+            exit();
+        }
+            echo "Gagal Hapus Data";
+    }
+
 }
 
 ?>

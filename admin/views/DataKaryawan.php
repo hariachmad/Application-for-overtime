@@ -79,8 +79,8 @@
                                 <td class="flex justify-center"><button onCLick="editRow(this)"
                                         class=" bg-blue-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">Edit</button><button
                                         onCLick="saveRow(this)" style="display: none;"
-                                        class=" save-btn bg-green-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-green-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">Save</button><button
-                                        class="deleteBtn ml-4 bg-red-500 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">Delete</button>
+                                        class=" save-btn bg-green-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-green-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">Save</button>
+                                        <button data-id="<?php echo $row['karyawan_id'] ?>" class="deleteBtn ml-4 bg-red-500 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">Delete</button>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -93,9 +93,24 @@
     <script>
 
         const deleteButtons = document.querySelectorAll('.deleteBtn');
-
         deleteButtons.forEach(button => {
             button.addEventListener('click', function () {
+                const id= this.getAttribute('data-id');
+                console.log(id);
+                fetch("../index.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: new URLSearchParams({
+                        id : id,
+                        form_type: "delete"
+                    }).toString()
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                    })
                 const row = this.closest('tr');
                 row.remove();
             });

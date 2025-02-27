@@ -24,6 +24,16 @@ class DataKaryawanController
             echo "Gagal Hapus Data";
     }
 
+    public function update($id,$nama,$divisi){
+        $dataKaryawanModel = new DataKaryawanModel();
+        $result = $dataKaryawanModel->updateUser($id,$nama,$divisi);
+        if($result){
+            require realpath(dirname(__FILE__) . "../../views/DataKaryawan.php");
+            exit();
+        }
+        echo "Gagal Hapus Data";
+    }
+
 }
 
 ?>

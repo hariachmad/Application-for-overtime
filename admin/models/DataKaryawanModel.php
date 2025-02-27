@@ -51,9 +51,23 @@ class DataKaryawanModel
             $stmt->close();
             $this->conn->close();
             return False;
-        }
+        }        
+    }
 
-        
+    public function updateUser($id,$nama,$divisi): bool
+    {
+        $query = 'UPDATE karyawan SET username = ?, divisi = ? WHERE karyawan_id = ?';
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssi", $nama,$divisi,$id);
+        if ($stmt->execute()) {
+            $stmt->close();
+            $this->conn->close();
+            return True;
+        } else {
+            $stmt->close();
+            $this->conn->close();
+            return False;
+        }        
     }
 }
 

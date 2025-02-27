@@ -69,18 +69,20 @@
                             <tr class="border-t hover:bg-gray-50">
                                 <td class="px-4 py-2 text-sm text-gray-700"><?php echo $row['karyawan_id']; ?></td>
                                 <td class="px-4 py-2 text-sm text-gray-700 w-[250px] text-center"><span
-                                        class="text"><?php echo $row['username']; ?></span><input type="text"
+                                        class="text"><?php echo $row['username']; ?></span><input type="name"
                                         style="display: none;" class="editable text-center"
                                         value="<?php echo $row['username']; ?>"></td>
                                 <td class="px-4 py-2 text-sm text-gray-700 w-[300px] text-center"><span
-                                        class="text"><?php echo $row['divisi']; ?></span><input type="text"
+                                        class="text"><?php echo $row['divisi']; ?></span><input type="divisi"
                                         style="display: none;" class="editable text-center"
                                         value="<?php echo $row['divisi']; ?>"></td>
                                 <td class="flex justify-center"><button onCLick="editRow(this)"
-                                        class=" bg-blue-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">Edit</button><button
+                                        class=" bg-blue-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">Edit</button>
+                                        <button data-id="<?php echo $row['karyawan_id'] ?>"
                                         onCLick="saveRow(this)" style="display: none;"
-                                        class=" save-btn bg-green-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-green-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">Save</button>
-                                        <button data-id="<?php echo $row['karyawan_id'] ?>" class="deleteBtn ml-4 bg-red-500 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">Delete</button>
+                                        class="save-btn bg-green-400 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-green-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm">Save</button>
+                                    <button data-id="<?php echo $row['karyawan_id'] ?>"
+                                        class="deleteBtn ml-4 bg-red-500 px-4 py-1 text-white font-semibold rounded-lg shadow-lg transform transition-all hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">Delete</button>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -91,11 +93,42 @@
 
     </div>
     <script>
+        document.querySelectorAll('.save-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                console.log("click");
+                const row = this.closest('tr');
+                const id = this.getAttribute('data-id');
+                const nama = row.querySelector('input[type="name"]').value;
+                const divisi = row.querySelector('input[type="divisi"]').value;
+
+                fetch('../index.php', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    // body: JSON.stringify({ id: id, name: name, email: email })
+                    body: new URLSearchParams({
+                        form_type: "update",
+                        id : id,
+                        nama : nama,
+                        divisi : divisi
+                    }).toString()
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Terjadi kesalahan. Silakan coba lagi.');
+                    });
+            });
+        });
 
         const deleteButtons = document.querySelectorAll('.deleteBtn');
         deleteButtons.forEach(button => {
             button.addEventListener('click', function () {
-                const id= this.getAttribute('data-id');
+                const id = this.getAttribute('data-id');
                 console.log(id);
                 fetch("../index.php", {
                     method: "POST",
@@ -103,7 +136,7 @@
                         "Content-Type": "application/x-www-form-urlencoded",
                     },
                     body: new URLSearchParams({
-                        id : id,
+                        id: id,
                         form_type: "delete"
                     }).toString()
                 })

@@ -17,6 +17,13 @@ if ($requestMethod == "POST") {
     $form_type = $_POST['form_type'];
 
     switch ($form_type) {
+        case 'update':
+            $id = $_POST['id'];
+            $nama =  $_POST['nama'];
+            $divisi =  $_POST['divisi'];
+            $controller = new DataKaryawanController();
+            $controller->update($id,$nama,$divisi);
+            break;
         case 'delete':
             $id = $_POST['id'];
             $controller = new DataKaryawanController();

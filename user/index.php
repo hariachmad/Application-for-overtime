@@ -4,15 +4,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Check if the user is logged in and is a karyawan
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'karyawan') {
-    header("Location: index.php");
-    exit();
-}
+// if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'karyawan') {
+//     header("Location: index.php");
+//     exit();
+// }
 
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "bluelake";
+$dbname = "blue_lake";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -324,7 +324,7 @@ if ($stmt) {
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="image/bluelake full.png" alt="BlueLake Logo" class="logo-image">
+            <img src="../public/image/bluelake.png" alt="../public/image/bluelake.png" class="logo-image">
         </div>
 
         <div class="form-container">

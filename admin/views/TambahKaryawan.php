@@ -14,7 +14,7 @@
   <div class="min-h-screen pt-10" style="background-image: linear-gradient(115deg, #1E2538, #d8dadd)">
     <div style="margin-left: 100px; margin-top: -30px;" class="container">
       <div class="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
-        <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
+      <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
           style="background-image: url('../public/image/Register-Background.png');">
           <img src="../public/image/bluelake.png" alt="logo" class="w-30 h-20 mb-5">
         </div>

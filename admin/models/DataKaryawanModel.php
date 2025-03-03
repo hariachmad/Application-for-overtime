@@ -34,8 +34,9 @@ class DataKaryawanModel
         $username_ = $username;
         $password_ = $password;
         $divisi_ = $divisi;
-
-        return $stmt->execute();
+        $stmt->execute();
+        $stmt->close();
+        return true;
     }
 
     public function deleteUser($id): bool

@@ -17,6 +17,23 @@ if ($requestMethod == "POST") {
     $form_type = $_POST['form_type'];
 
     switch ($form_type) {
+        case 'approve':
+            $id = $_POST['pengajuan_id'];
+            $admin_id = $_SESSION['user_id'];
+            $admin_role = $_SESSION['admin_role'];
+            $controller = new PengajuanLemburController();
+            $result = $controller->approve($id, $admin_id, $admin_role);
+            if ($result) {
+                $controller->index();
+            }
+            break;
+        case 'reject':
+            $id = $_POST['pengajuan_id'];
+            $admin_id = $_SESSION['user_id'];
+            $admin_role = $_SESSION['admin_role'];
+            $controller = new PengajuanLemburController();
+            $controller->reject($id, $admin_id, $admin_);
+            break;
         case 'update':
             $id = $_POST['id'];
             $nama =  $_POST['nama'];

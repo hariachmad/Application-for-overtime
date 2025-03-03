@@ -26,6 +26,8 @@ class Utils
         return $result->fetch_assoc();
     }
 
+    $stmt->close();
+
     return false;
 }
 }

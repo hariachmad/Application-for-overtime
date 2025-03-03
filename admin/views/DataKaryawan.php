@@ -95,7 +95,6 @@
     <script>
         document.querySelectorAll('.save-btn').forEach(button => {
             button.addEventListener('click', function () {
-                console.log("click");
                 const row = this.closest('tr');
                 const id = this.getAttribute('data-id');
                 const nama = row.querySelector('input[type="name"]').value;

@@ -160,6 +160,7 @@ if ($stmt) {
     $stmt->bind_param("i", $karyawan_id);
     $stmt->execute();
     $result = $stmt->get_result();
+    $stmt->close();
 } else {
     die("Error preparing statement: " . $conn->error);
 }

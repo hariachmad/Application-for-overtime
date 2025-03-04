@@ -207,7 +207,7 @@
                             })
                             .then(data => {
                                 console.log(data);
-                                alert('Data berhasil dikirim!');
+                                alert('Data berhasil dikirim!');0
                             })
                             .catch(error => {
                                 console.error('Error:', error);

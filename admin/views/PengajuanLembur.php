@@ -80,6 +80,16 @@
             object-fit: cover;
         }
     </style>
+    <?php 
+        function decimalToTime($decimal) {
+            // Pisahkan jam dan menit
+            $hours = floor($decimal); // Ambil bagian jam
+            $minutes = round(($decimal - $hours) * 60); // Hitung menit dari bagian desimal
+        
+            // Format menjadi string "jam:menit"
+            return sprintf("%02d:%02d", $hours, $minutes);
+        }
+    ?>
 </head>
 
 <body>
@@ -106,11 +116,11 @@
                     <tr>
                         <td><?php echo htmlspecialchars($row['karyawan_nama']); ?></td>
                         <td><?php echo date('d/m/Y', strtotime($row['tanggal_lembur'])); ?></td>
-                        <td><?php echo number_format($row['durasi_lembur'], 1); ?></td>
+                        <td><?php echo decimalToTime(number_format ( $row['durasi_lembur'], 1)); ?></td>
                         <td><?php echo htmlspecialchars($row['alasan_lembur']); ?></td>
                         <td>
                             <?php if (!empty($row['foto_sebelum_path'])): ?>
-                                <img src="<?php echo htmlspecialchars($row['foto_sebelum_path']); ?>" alt="Foto Sebelum"
+                                <img src="<?php echo htmlspecialchars("../".$row['foto_sebelum_path']); ?>" alt="Foto Sebelum"
                                     class="photo-evidence" style="max-width: 100px; height: auto;">
                             <?php else: ?>
                                 Tidak ada foto
@@ -118,7 +128,7 @@
                         </td>
                         <td>
                             <?php if (!empty($row['foto_sesudah_path'])): ?>
-                                <img src="<?php echo htmlspecialchars($row['foto_sesudah_path']); ?>" alt="Foto Sesudah"
+                                <img src="<?php echo htmlspecialchars("../".$row['foto_sesudah_path']); ?>" alt="Foto Sesudah"
                                     class="photo-evidence" style="max-width: 100px; height: auto;">
                             <?php else: ?>
                                 Tidak ada foto
@@ -212,14 +222,14 @@
                             credentials: 'same-origin'
                         })
                             .then(response => response.text())
-                            .then(.then(data => {
+                            .then(data => {
                                 console.log(data);
                                 alert('Data berhasil dikirim!');
                             })
                             .catch(error => {
                                 console.error('Error:', error);
                                 alert('Terjadi kesalahan. Silakan coba lagi.');
-                            });)
+                            })
                     }
                 };
             });

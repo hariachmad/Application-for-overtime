@@ -5,7 +5,7 @@ class DatabaseService
 private $servername = "localhost";
 private $username = "root"; // Change this to your database username
 private $password = ""; // Change this to your database password
-private $dbname = "bluelake";
+private $dbname = "blue_lake";
 
 // Create conneection
 private $db;

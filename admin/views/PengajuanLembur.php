@@ -197,7 +197,7 @@
                             })
                             .then(data => {
                                 console.log(data);
-                                alert('Data berhasil dikirim!');
+                                alert('Data berhasil dikirim!');0
                             })
                             .catch(error => {
                                 console.error('Error:', error);
@@ -212,14 +212,14 @@
                             credentials: 'same-origin'
                         })
                             .then(response => response.text())
-                            .then(.then(data => {
+                            .then(data => {
                                 console.log(data);
                                 alert('Data berhasil dikirim!');
                             })
                             .catch(error => {
                                 console.error('Error:', error);
                                 alert('Terjadi kesalahan. Silakan coba lagi.');
-                            });)
+                            })
                     }
                 };
             });

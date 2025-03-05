@@ -121,7 +121,7 @@
                             <td><?php echo htmlspecialchars($row['alasan_lembur']); ?></td>
                             <td>
                                 <?php if (!empty($row['foto_sebelum_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars("../" . $row['foto_sebelum_path']); ?>" alt="Foto Sebelum"
+                                    <img src="<?php echo htmlspecialchars("../user/" . $row['foto_sebelum_path']); ?>" alt="Foto Sebelum"
                                         class="photo-evidence" style="max-width: 100px; height: auto;">
                                 <?php else: ?>
                                     Tidak ada foto
@@ -129,7 +129,7 @@
                             </td>
                             <td>
                                 <?php if (!empty($row['foto_sesudah_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars("../" . $row['foto_sesudah_path']); ?>" alt="Foto Sesudah"
+                                    <img src="<?php echo htmlspecialchars("../user/" . $row['foto_sesudah_path']); ?>" alt="Foto Sesudah"
                                         class="photo-evidence" style="max-width: 100px; height: auto;">
                                 <?php else: ?>
                                     Tidak ada foto

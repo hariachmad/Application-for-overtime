@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2025 at 03:15 PM
+-- Generation Time: Mar 08, 2025 at 04:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -82,7 +82,8 @@ CREATE TABLE `karyawan` (
 --
 
 INSERT INTO `karyawan` (`karyawan_id`, `username`, `password`, `divisi`, `created_at`) VALUES
-(1, 'sherlynn', '123456789', 'mahasiswa', '2025-02-10 06:23:23');
+(1, 'sherlynn', '123456789', 'mahasiswa', '2025-02-10 06:23:23'),
+(2, 'hariachmad', '123456789', 'mahasiswa', '2025-03-05 21:24:08');
 
 -- --------------------------------------------------------
 
@@ -176,60 +177,10 @@ CREATE TABLE `pengajuan_lembur` (
 INSERT INTO `pengajuan_lembur` (`pengajuan_id`, `karyawan_id`, `tanggal_pengajuan`, `tanggal_lembur`, `jenis_proyek`, `nama_proyek`, `jam_mulai`, `jam_selesai`, `durasi_lembur`, `alasan_lembur`, `daftar_pekerjaan`, `status_pengajuan`, `disetujui_oleh`, `tanggal_persetujuan`, `co_founder_approval_by`, `co_founder_approval_time`, `hrga_staff_approval`, `hrga_staff_approval_by`, `hrga_staff_approval_time`, `ditolak_oleh`, `tanggal_penolakan`, `approved_by`, `rejected_by`, `last_updated_by`, `last_approval`, `approval_status`, `foto_sebelum_path`, `foto_sesudah_path`) VALUES
 (11, 1, '2025-02-14 03:16:08', '2025-02-01', 'sipil', 'a', '10:15:00', '12:25:00', 2, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 5, '2025-02-14 08:08:34', NULL, NULL, NULL, NULL, 'Ditolak oleh HRGA Staff', 'uploads/1739502968_before_Blush_Deluxe.jpg', 'uploads/1739502968_after_Family_Paradise.jpg'),
 (12, 1, '2025-02-14 08:49:16', '2025-02-05', 'lainnya', 'a', '15:50:00', '17:55:00', 2, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 3, '2025-02-14 09:50:42', NULL, NULL, NULL, NULL, 'Ditolak oleh Co-Founder', 'uploads/1739522956_before_at1.jpg', 'uploads/1739522956_after_at2.jpg'),
-(13, 1, '2025-02-14 09:20:32', '2025-02-06', 'furniture', 'a', '16:20:00', '18:30:00', 2, 'a', 'a', 'pending', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'uploads/1739524832_before_background.png', 'uploads/1739524832_after_banner2.jpg'),
-(14, 1, '2025-02-14 09:23:34', '2025-02-06', 'furniture', 'a', '16:20:00', '18:30:00', 2, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 5, '2025-02-14 10:32:36', NULL, NULL, NULL, NULL, 'Ditolak oleh HRGA Staff', 'uploads/1739525014_before_background.png', 'uploads/1739525014_after_banner2.jpg');
-
---
--- Triggers `pengajuan_lembur`
---
-DELIMITER $$
-CREATE TRIGGER `log_pengajuan_baru` AFTER INSERT ON `pengajuan_lembur` FOR EACH ROW BEGIN
-    INSERT INTO log_aktivitas (user_type, user_id, aktivitas, detail)
-    VALUES ('karyawan', NEW.karyawan_id, 'Pengajuan lembur baru', 
-            CONCAT('Pengajuan lembur untuk tanggal ', NEW.tanggal_lembur, ' menunggu persetujuan'));
-END
-$$
-DELIMITER ;
-DELIMITER $$
-CREATE TRIGGER `log_perubahan_status` AFTER UPDATE ON `pengajuan_lembur` FOR EACH ROW BEGIN
-    -- For Head of Production approval
-    IF NEW.disetujui_oleh IS NOT NULL AND OLD.disetujui_oleh IS NULL AND 
-       EXISTS (SELECT 1 FROM admin WHERE admin_id = NEW.disetujui_oleh AND role = 'Head of Production') THEN
-        INSERT INTO log_aktivitas (user_type, user_id, aktivitas, detail)
-        VALUES ('admin', NEW.disetujui_oleh, 'Persetujuan Head of Production', 
-                CONCAT('Pengajuan lembur ID ', NEW.pengajuan_id, ' disetujui oleh Head of Production'));
-    END IF;
-
-    -- For Co-Founder approval
-    IF NEW.co_founder_approval_by IS NOT NULL AND OLD.co_founder_approval_by IS NULL THEN
-        INSERT INTO log_aktivitas (user_type, user_id, aktivitas, detail)
-        VALUES ('admin', NEW.co_founder_approval_by, 'Persetujuan Co-Founder', 
-                CONCAT('Pengajuan lembur ID ', NEW.pengajuan_id, ' disetujui oleh Co-Founder'));
-    END IF;
-
-    -- For HRGA Staff approval
-    IF NEW.hrga_staff_approval_by IS NOT NULL AND OLD.hrga_staff_approval_by IS NULL THEN
-        INSERT INTO log_aktivitas (user_type, user_id, aktivitas, detail)
-        VALUES ('admin', NEW.hrga_staff_approval_by, 'Persetujuan HRGA Staff', 
-                CONCAT('Pengajuan lembur ID ', NEW.pengajuan_id, ' disetujui oleh HRGA Staff'));
-    END IF;
-
-    -- For rejection
-    IF NEW.status_pengajuan = 'ditolak' AND OLD.status_pengajuan != 'ditolak' THEN
-        INSERT INTO log_aktivitas (user_type, user_id, aktivitas, detail)
-        VALUES ('admin', NEW.ditolak_oleh, 'Pengajuan lembur ditolak', 
-                CONCAT('Pengajuan lembur ID ', NEW.pengajuan_id, ' ditolak'));
-    END IF;
-
-    -- For final approval
-    IF NEW.status_pengajuan = 'disetujui' AND OLD.status_pengajuan != 'disetujui' THEN
-        INSERT INTO log_aktivitas (user_type, user_id, aktivitas, detail)
-        VALUES ('system', NULL, 'Pengajuan lembur disetujui', 
-                CONCAT('Pengajuan lembur ID ', NEW.pengajuan_id, ' telah disetujui oleh semua pihak'));
-    END IF;
-END
-$$
-DELIMITER ;
+(13, 1, '2025-02-14 09:20:32', '2025-02-06', 'furniture', 'a', '16:20:00', '18:30:00', 2, 'a', 'a', 'disetujui', 5, '2025-03-04 02:43:25', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Disetujui oleh HRGA Staff', 'uploads/1739524832_before_background.png', 'uploads/1739524832_after_banner2.jpg'),
+(14, 1, '2025-02-14 09:23:34', '2025-02-06', 'furniture', 'a', '16:20:00', '18:30:00', 3, 'a', 'a', 'ditolak', NULL, NULL, NULL, NULL, 0, NULL, NULL, 5, '2025-02-14 10:32:36', NULL, NULL, NULL, NULL, 'Ditolak oleh HRGA Staff', 'uploads/1739525014_before_background.png', 'uploads/1739525014_after_banner2.jpg'),
+(16, 2, '2025-03-05 21:37:16', '2025-03-06', 'sipil', 'Sipil', '04:36:00', '05:36:00', 1, 'Full Time', 'administrasi', 'disetujui', 1, '2025-03-08 14:53:55', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Disetujui oleh Head of Production', '../uploads/1741210636_before_logo.png', '../uploads/1741210636_after_logo.png'),
+(17, 2, '2025-03-05 21:54:42', '2025-03-06', 'sipil', 'Sipil', '04:54:00', '08:58:00', 4, 'fulltime', 'administrasi', 'disetujui', 1, '2025-03-08 14:53:58', NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Disetujui oleh Head of Production', 'uploads/1741211682_before_logo.png', 'uploads/1741211682_after_logo.png');
 
 --
 -- Indexes for dumped tables
@@ -298,7 +249,7 @@ ALTER TABLE `foto_lembur`
 -- AUTO_INCREMENT for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `karyawan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `karyawan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `log_aktivitas`
@@ -310,7 +261,7 @@ ALTER TABLE `log_aktivitas`
 -- AUTO_INCREMENT for table `pengajuan_lembur`
 --
 ALTER TABLE `pengajuan_lembur`
-  MODIFY `pengajuan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `pengajuan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
@@ -326,11 +277,11 @@ ALTER TABLE `foto_lembur`
 -- Constraints for table `pengajuan_lembur`
 --
 ALTER TABLE `pengajuan_lembur`
-  ADD CONSTRAINT `fk_co_founder_approval` FOREIGN KEY (`co_founder_approval_by`) REFERENCES `admin` (`admin_id`),
-  ADD CONSTRAINT `fk_ditolak_oleh` FOREIGN KEY (`ditolak_oleh`) REFERENCES `admin` (`admin_id`),
-  ADD CONSTRAINT `fk_hrga_staff_approval` FOREIGN KEY (`hrga_staff_approval_by`) REFERENCES `admin` (`admin_id`),
-  ADD CONSTRAINT `pengajuan_lembur_ibfk_1` FOREIGN KEY (`karyawan_id`) REFERENCES `karyawan` (`karyawan_id`),
-  ADD CONSTRAINT `pengajuan_lembur_ibfk_2` FOREIGN KEY (`disetujui_oleh`) REFERENCES `admin` (`admin_id`);
+  ADD CONSTRAINT `fk_co_founder_approval` FOREIGN KEY (`co_founder_approval_by`) REFERENCES `admin` (`admin_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_ditolak_oleh` FOREIGN KEY (`ditolak_oleh`) REFERENCES `admin` (`admin_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_hrga_staff_approval` FOREIGN KEY (`hrga_staff_approval_by`) REFERENCES `admin` (`admin_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pengajuan_lembur_ibfk_1` FOREIGN KEY (`karyawan_id`) REFERENCES `karyawan` (`karyawan_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pengajuan_lembur_ibfk_2` FOREIGN KEY (`disetujui_oleh`) REFERENCES `admin` (`admin_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

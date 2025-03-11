@@ -17,7 +17,7 @@ class ListPengajuanModel
     {
         $search = isset($_GET['search']) ? $this->conn->real_escape_string($_GET['search']) : '';
 
-        $query = "SELECT 
+        $queryPengajuanLembur = "SELECT 
             pl.pengajuan_id, 
             k.username AS nama_karyawan, 
             pl.tanggal_lembur, 
@@ -29,8 +29,6 @@ class ListPengajuanModel
             pl.alasan_lembur, 
             pl.daftar_pekerjaan, 
             pl.status_pengajuan,
-            pl.foto_sebelum_path,
-            pl.foto_sesudah_path,
             CASE 
                 WHEN pl.status_pengajuan = 'disetujui' THEN a1.role
                 WHEN pl.status_pengajuan = 'ditolak' THEN a2.role
@@ -42,17 +40,43 @@ class ListPengajuanModel
         LEFT JOIN admin a2 ON pl.ditolak_oleh = a2.admin_id";
 
         if (!empty($search)) {
-            $query .= " WHERE k.username LIKE '%$search%'";
+            $queryPengajuanLembur .= " WHERE k.username LIKE '%$search%'";
         }
 
-        $query .= " ORDER BY pl.tanggal_pengajuan DESC";
+        $queryPengajuanLembur .= " ORDER BY pl.tanggal_pengajuan DESC";
 
-        $result = $this->conn->query($query);
+        $resultPengajuanLembur = $this->conn->query($queryPengajuanLembur);
 
-        // Cek apakah query berhasil
-        if (!$result) {
+        if (!$resultPengajuanLembur) {
             die("Query Error: " . $this->conn->error);
         }
+
+        $queryFotoPengajuanBefore = "select pengajuan_lembur.karyawan_id,pengajuan_lembur.pengajuan_id,pengajuan_lembur.tanggal_pengajuan,foto_pengajuan.before_or_after,foto_pengajuan.path
+                                from pengajuan_lembur right join foto_pengajuan
+                                on pengajuan_lembur.pengajuan_id = foto_pengajuan.id_pengajuan_lembur where before_or_after = 'before'";
+
+        $resultFotoPengajuanBefore = $this->conn->query($queryFotoPengajuanBefore);
+
+        if (!$resultFotoPengajuanBefore) {
+            die("Query Error: " . $this->conn->error);
+        }
+
+        $queryFotoPengajuanAfter = "select pengajuan_lembur.karyawan_id,pengajuan_lembur.pengajuan_id,pengajuan_lembur.tanggal_pengajuan,foto_pengajuan.before_or_after,foto_pengajuan.path
+                                from pengajuan_lembur right join foto_pengajuan
+                                on pengajuan_lembur.pengajuan_id = foto_pengajuan.id_pengajuan_lembur where before_or_after = 'after'";
+
+        $resultFotoPengajuanAfter = $this->conn->query($queryFotoPengajuanAfter);
+
+        if (!$resultFotoPengajuanAfter) {
+            die("Query Error: " . $this->conn->error);
+        }
+
+        $result = [
+            "pengajuanLembur" => $resultPengajuanLembur,
+            "fotoPengajuanBefore" => $resultFotoPengajuanBefore,
+            "fotoPengajuanAfter" => $resultFotoPengajuanAfter
+        ];
+        
 
         return $result;
     }

@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../output.css" rel="stylesheet">
     <title>List Pengajuan Lembur</title>
     <style>
         .content {
@@ -167,15 +168,16 @@
                     <th>Tanggal Lembur</th>
                     <th>Jam Lembur</th>
                     <th>Daftar Pekerjaan</th>
-                    <th>Bukti Kerja</th>
                     <th>Status</th>
                     <th>Disetujui / Ditolak Oleh</th>
+                    <th>Bukti Foto Sebelum</th>
+                    <th>Bukti Foto Sesudah</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()):
+                if ($result["pengajuanLembur"]->num_rows > 0) {
+                    while ($row = $result["pengajuanLembur"]->fetch_assoc()):
                         ?>
                         <tr>
                             <td><?php echo htmlspecialchars($row['nama_karyawan']); ?></td>
@@ -199,57 +201,31 @@
                                 ?>
                             </td>
                             <td>
-                                <div style="display: flex; gap: 10px;">
-                                    <div>
-                                        <strong>Sebelum:</strong><br>
-                                        <?php if (!empty($row['foto_sebelum_path'])): ?>
-                                            <?php
-                                            $path = $row['foto_sebelum_path'];
-                                            $full_path = $_SERVER['DOCUMENT_ROOT'] . '/' . $path;
-                                            if (file_exists($full_path)) {
-                                                echo "<img src='/" . htmlspecialchars($path) . "' 
-                                                class='thumbnail'
-                                                onclick='showImage(this.src)'
-                                                alt='Foto Sebelum'
-                                                style='max-width: 100px; height: auto;'>";
-                                            } else {
-                                                echo "<span class='no-proof'>File tidak ditemukan di: " . htmlspecialchars($path) . "</span>";
-                                            }
-                                            ?>
-                                        <?php else: ?>
-                                            <span class="no-proof">Path foto kosong</span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <div>
-                                        <strong>Sesudah:</strong><br>
-                                        <?php if (!empty($row['foto_sesudah_path'])): ?>
-                                            <?php
-                                            $path = $row['foto_sesudah_path'];
-                                            $full_path = $_SERVER['DOCUMENT_ROOT'] . '/' . $path;
-                                            if (file_exists($full_path)) {
-                                                echo "<img src='/" . htmlspecialchars($path) . "' 
-                                                class='thumbnail'
-                                                onclick='showImage(this.src)'
-                                                alt='Foto Sesudah'
-                                                style='max-width: 100px; height: auto;'>";
-                                            } else {
-                                                echo "<span class='no-proof'>File tidak ditemukan di: " . htmlspecialchars($path) . "</span>";
-                                            }
-                                            ?>
-                                        <?php else: ?>
-                                            <span class="no-proof">Path foto kosong</span>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
                                 <span class="status status-<?php echo strtolower($row['status_pengajuan']); ?>">
                                     <?php echo htmlspecialchars($row['status_pengajuan']); ?>
                                 </span>
                             </td>
                             <td><?php echo isset($row['approver_role']) ? htmlspecialchars($row['approver_role']) : '-'; ?></td>
+                            <td>
+                                <?php
+
+                                while ($row = $result["fotoPengajuanBefore"]->fetch_assoc()) {
+                                    echo "<img class='w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 object-cover rounded-lg shadow-md' src='../user/" . $row["path"] . "'>";
+                                }
+
+                                ?>
+                            </td>
+                            <td>
+                                <?php
+
+                                while ($row = $result["fotoPengajuanAfter"]->fetch_assoc()) {
+                                    echo "<img class='w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 object-cover rounded-lg shadow-md' src='../user/" . $row["path"] . "'>";
+                                }
+
+                                ?>
+                            </td>
                         </tr>
-                    <?php
+                        <?php
                     endwhile;
                 } else {
                     echo "<tr><td colspan='9'>Tidak ada data yang ditemukan.</td></tr>";
@@ -257,21 +233,12 @@
                 ?>
             </tbody>
         </table>
-
-
-        <!-- Modal untuk preview gambar -->
-        <div id="imageModal" class="modal">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div class="modal-content">
-                <img id="modalImage" src="/placeholder.svg" alt="Preview">
-            </div>
-        </div>
     </div>
 
     <script>
         const searchInput = document.getElementById('search');
         const submitButton = document.getElementById('search-button');
-        submitButton.disabled =true;
+        submitButton.disabled = true;
 
         searchInput.addEventListener("input", function () {
             if (searchInput.value.trim() === '') {

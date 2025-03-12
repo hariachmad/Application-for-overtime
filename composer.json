@@ -1,0 +1,17 @@
+{
+    "name": "hachm/bluelake",
+    "autoload": {
+        "psr-4": {
+            "Hachm\\Bluelake\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "hariachmad",
+            "email": "hari08achmad@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^4.1"
+    }
+}

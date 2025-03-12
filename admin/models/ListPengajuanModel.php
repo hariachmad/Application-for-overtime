@@ -76,7 +76,7 @@ class ListPengajuanModel
             "fotoPengajuanBefore" => $resultFotoPengajuanBefore,
             "fotoPengajuanAfter" => $resultFotoPengajuanAfter
         ];
-        
+
 
         return $result;
     }

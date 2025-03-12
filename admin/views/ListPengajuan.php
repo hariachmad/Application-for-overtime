@@ -154,24 +154,30 @@
 <body>
     <?php require(realpath(dirname(__FILE__) . "../../components/admin_navbar.php")) ?>
     <div class="content">
-        <form class="search-form" action="/bluelake/admin/list-pengajuan" method="GET">
-            <input type="text" id="search" name="search" placeholder="Cari nama karyawan..."
-                value="<?php echo htmlspecialchars($search); ?>">
-            <button id="search-button" type="submit">Cari</button>
-        </form>
+        <div class="flex flex-row">
+            <form class="search-form" action="/bluelake/admin/list-pengajuan" method="GET">
+                <input type="text" id="search" name="search" placeholder="Cari nama karyawan..."
+                    value="<?php echo htmlspecialchars($search); ?>">
+                <button id="search-button" type="submit">Cari</button>
+            </form>
+            <form class="search-form" id="download-form">
+                <input type="hidden" name="form_type" value="download">
+                <button id="download-button">Download</button>
+            </form>
+        </div>
         <table class="content-table">
             <thead>
                 <tr>
-                    <th>Nama Karyawan</th>
-                    <th>Jenis Proyek</th>
-                    <th>Nama Proyek</th>
-                    <th>Tanggal Lembur</th>
-                    <th>Jam Lembur</th>
-                    <th>Daftar Pekerjaan</th>
-                    <th>Status</th>
-                    <th>Disetujui / Ditolak Oleh</th>
-                    <th>Bukti Foto Sebelum</th>
-                    <th>Bukti Foto Sesudah</th>
+                    <th id="A">Nama Karyawan</th>
+                    <th id="B">Jenis Proyek</th>
+                    <th id="C">Nama Proyek</th>
+                    <th id="D">Tanggal Lembur</th>
+                    <th id="E">Jam Lembur</th>
+                    <th id="F">Daftar Pekerjaan</th>
+                    <th id="G">Status</th>
+                    <th id="H">Disetujui / Ditolak Oleh</th>
+                    <th id="I">Bukti Foto Sebelum</th>
+                    <th id="J">Bukti Foto Sesudah</th>
                 </tr>
             </thead>
             <tbody>
@@ -210,7 +216,7 @@
                                 <?php
 
                                 while ($row = $result["fotoPengajuanBefore"]->fetch_assoc()) {
-                                    echo "<img class='w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 object-cover rounded-lg shadow-md' src='../user/" . $row["path"] . "'>";
+                                    echo "<img class='' src='../user/" . $row["path"] . "'>";
                                 }
 
                                 ?>
@@ -219,7 +225,7 @@
                                 <?php
 
                                 while ($row = $result["fotoPengajuanAfter"]->fetch_assoc()) {
-                                    echo "<img class='w-48 h-48 md:w-64 md:h-64 lg:w-96 lg:h-96 object-cover rounded-lg shadow-md' src='../user/" . $row["path"] . "'>";
+                                    echo "<img class='' src='../user/" . $row["path"] . "'>";
                                 }
 
                                 ?>
@@ -236,7 +242,19 @@
     </div>
 
     <script>
+        const headerA = document.getElementById("A").innerText;
+        const headerB = document.getElementById('B').innerText;
+        const headerC = document.getElementById('C').innerText;
+        const headerD = document.getElementById('D').innerText;
+        const headerE = document.getElementById('E').innerText;
+        const headerF = document.getElementById('F').innerText;
+        const headerG = document.getElementById('G').innerText;
+        const headerH = document.getElementById('H').innerText;
+        const headerI = document.getElementById('I').innerText;
+        const headerJ = document.getElementById('J').innerText;
+
         const searchInput = document.getElementById('search');
+        const downloadButton = document.getElementById('download-button')
         const submitButton = document.getElementById('search-button');
         submitButton.disabled = true;
 
@@ -248,18 +266,26 @@
             }
         });
 
+        downloadButton.addEventListener("click", function () {
+            const headers = [headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI, headerJ];
+            const formData = new FormData(document.getElementById('download-form'));
+            formData.append("headers", headers);
+            console.log("headers= ",headers);
+            fetch('../index.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    alert('Berhasil Di Download');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
 
-        // Fungsi untuk preview gambar
-        function showImage(src) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            modal.style.display = "block";
-            modalImg.src = src;
-        }
+        })
 
-        function closeModal() {
-            document.getElementById('imageModal').style.display = "none";
-        }
 
         // Fungsi untuk menyetujui lembur
         function approveOvertime(id) {

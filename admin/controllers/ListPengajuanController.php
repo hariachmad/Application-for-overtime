@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . "/../models/ListPengajuanModel.php");
 require_once(__DIR__ . "/../../repository/databaseService.php");
+require_once(__DIR__ . "/../services/XlsxService.php");
 
 class ListPengajuanController
 {
@@ -19,6 +20,10 @@ class ListPengajuanController
         $result = $listPengajuanModel->getRows();
 
         include realpath(dirname(__FILE__) . "../../views/ListPengajuan.php");
+    }
+
+    public function download($headers){
+        $xlsxService = new XlsxService($headers);
     }
 
 }

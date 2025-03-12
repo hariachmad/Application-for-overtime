@@ -17,6 +17,10 @@ if ($requestMethod == "POST") {
     $form_type = $_POST['form_type'];
 
     switch ($form_type) {
+        case 'download':
+            $headers= $_POST['headers'];
+            $controller = new ListPengajuanController();
+            $controller->download($headers);
         case 'approve':
             $id = $_POST['pengajuan_id'];
             $admin_id = $_SESSION['user_id'];

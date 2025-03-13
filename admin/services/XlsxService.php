@@ -8,7 +8,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class XlsxService
 {
     protected $spreadsheet;
-    public function __construct($headers)
+    public function __construct($headers,$data)
     {
         $this->spreadsheet = new Spreadsheet();
         $sheet = $this->spreadsheet->getActiveSheet();

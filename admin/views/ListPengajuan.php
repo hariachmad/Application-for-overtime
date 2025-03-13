@@ -268,9 +268,10 @@
 
         downloadButton.addEventListener("click", function () {
             const headers = [headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI, headerJ];
+            const results = <?php echo json_encode($result) ?>
             const formData = new FormData(document.getElementById('download-form'));
             formData.append("headers", headers);
-            console.log("headers= ",headers);
+            console.log("results= ",results);
             fetch('../index.php', {
                 method: 'POST',
                 body: formData

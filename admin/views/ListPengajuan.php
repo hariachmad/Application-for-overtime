@@ -267,10 +267,9 @@
         });
 
         downloadButton.addEventListener("click", function () {
-            const headers = [headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI, headerJ];
+            const headers = [headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI,"","","","",headerJ];
             const formData = new FormData(document.getElementById('download-form'));
             formData.append("headers", headers);
-            console.log("headers= ",headers);
             fetch('../index.php', {
                 method: 'POST',
                 body: formData

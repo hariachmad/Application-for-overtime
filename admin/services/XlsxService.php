@@ -10,8 +10,12 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class XlsxService
 {
     protected $spreadsheet;
+<<<<<<< HEAD
     protected $listPengajuanModel;
     public function __construct($headers)
+=======
+    public function __construct($headers,$data)
+>>>>>>> 1732a2b76d99346503039ee8f728f1502bcfbec6
     {
         $this->listPengajuanModel = new ListPengajuanModel();
         $this->spreadsheet = new Spreadsheet();

@@ -33,17 +33,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $alasan_lembur = $conn->real_escape_string($_POST['alasan_lembur']);
     $daftar_pekerjaan = $conn->real_escape_string($_POST['daftar_pekerjaan']);
 
+    $mulaiLembur = strtotime($jam_mulai.":00");
+    $selesaiLembur = strtotime($jam_selesai.":00");
+    $selisihLembur = $selesaiLembur - $mulaiLembur;
+    $selisihDec = number_format($selisihLembur / 3600,2);
+    $durasiLembur = gmdate("H:i:s",$selisihLembur);
     // Hitung durasi lembur
-    $durasi_result = $conn->query("SELECT TIMEDIFF('$jam_selesai', '$jam_mulai') AS durasi");
-    $durasi_row = $durasi_result->fetch_assoc();
-    $durasi_lembur = $durasi_row['durasi'];
+    // $durasi_result = $conn->query("SELECT TIMEDIFF('$jam_selesai', '$jam_mulai') AS durasi");
+    // $durasi_row = $durasi_result->fetch_assoc();
+    // $durasi_lembur = $durasi_row['durasi'];
 
     // Convert durasi to hours for storage
-    $time_parts = explode(':', $durasi_lembur);
-    $hours = $time_parts[0] + ($time_parts[1]/60) + ($time_parts[2]/3600);
-    $durasi_jam = number_format($hours, 1);
+    // $time_parts = explode(':', $durasi_lembur);
+    // $hours = $time_parts[0] + ($time_parts[1]/60) + ($time_parts[2]/3600);
+    // $durasi_jam = number_format($hours, 1);
 
-    // Handle file uploads
     error_log("POST request received. Data: " . print_r($_POST, true));
     error_log("Files: " . print_r($_FILES, true));
     $upload_dir = dirname(__FILE__) . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR;
@@ -100,24 +104,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             alasan_lembur,
             daftar_pekerjaan,
             status_pengajuan,
-            tanggal_pengajuan,
-            foto_sebelum_path,
-            foto_sesudah_path
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW(), ?, ?)");
+            tanggal_pengajuan
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())");
 
         if ($stmt) {
-            $stmt->bind_param("isssssdssss",
+            $stmt->bind_param("isssssdss",
                 $karyawan_id,
                 $tanggal_lembur,
                 $jenis_proyek,
                 $nama_proyek,
                 $jam_mulai,
                 $jam_selesai,
-                $durasi_jam,
+                $selisihDec,
                 $alasan_lembur,
-                $daftar_pekerjaan,
-                $foto_sebelum_path,
-                $foto_sesudah_path
+                $daftar_pekerjaan
             );
 
             if ($stmt->execute()) {
@@ -126,13 +126,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } else {
                 $error_message = "Error: " . $stmt->error;
                 error_log("Database insertion error: " . $stmt->error);
-                // Clean up uploaded files if database insertion fails
-                if (file_exists($upload_dir . $foto_sebelum_name)) {
-                    unlink($upload_dir . $foto_sebelum_name);
-                }
-                if (file_exists($upload_dir . $foto_sesudah_name)) {
-                    unlink($upload_dir . $foto_sesudah_name);
-                }
             }
             $stmt->close();
         } else {

@@ -84,8 +84,4 @@ class XlsxService
         exit();
     }
 }
-
-
-
-
 ?>

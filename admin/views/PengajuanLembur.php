@@ -104,8 +104,6 @@
                     <th>Tanggal Lembur</th>
                     <th>Durasi</th>
                     <th>Alasan</th>
-                    <th>Foto Sebelum</th>
-                    <th>Foto Sesudah</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -117,24 +115,8 @@
                         <tr>
                             <td><?php echo htmlspecialchars($row['karyawan_nama']); ?></td>
                             <td><?php echo date('d/m/Y', strtotime($row['tanggal_lembur'])); ?></td>
-                            <td><?php echo decimalToTime(number_format($row['durasi_lembur'], 1)); ?></td>
+                            <td><?php echo decimalToTime(number_format($row['durasi_lembur'], 2)); ?></td>
                             <td><?php echo htmlspecialchars($row['alasan_lembur']); ?></td>
-                            <td>
-                                <?php if (!empty($row['foto_sebelum_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars("../user/" . $row['foto_sebelum_path']); ?>" alt="Foto Sebelum"
-                                        class="photo-evidence" style="max-width: 100px; height: auto;">
-                                <?php else: ?>
-                                    Tidak ada foto
-                                <?php endif; ?>
-                            </td>
-                            <td>
-                                <?php if (!empty($row['foto_sesudah_path'])): ?>
-                                    <img src="<?php echo htmlspecialchars("../user/" . $row['foto_sesudah_path']); ?>" alt="Foto Sesudah"
-                                        class="photo-evidence" style="max-width: 100px; height: auto;">
-                                <?php else: ?>
-                                    Tidak ada foto
-                                <?php endif; ?>
-                            </td>
                             <td>
                                 <?php if ($row['status_pengajuan'] === 'pending'): ?>
                                     <span style="color: #f59e0b;">Menunggu Persetujuan</span>

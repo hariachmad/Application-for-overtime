@@ -182,6 +182,7 @@
             </thead>
             <tbody>
                 <?php
+                $fotoPengajuan = $result["fotoPengajuanBefore"]->fetch_all(MYSQLI_ASSOC);
                 if ($result["pengajuanLembur"]->num_rows > 0) {
                     while ($row = $result["pengajuanLembur"]->fetch_assoc()):
                         ?>
@@ -211,22 +212,33 @@
                                     <?php echo htmlspecialchars($row['status_pengajuan']); ?>
                                 </span>
                             </td>
-                            <td><?php echo isset($row['approver_role']) ? htmlspecialchars($row['approver_role']) : '-'; ?></td>
+                            <td><?php echo isset($row['approver_role']) ? htmlspecialchars($row['approver_role']) : '-'; ?>
+                            </td>
                             <td>
                                 <?php
-
-                                while ($row = $result["fotoPengajuanBefore"]->fetch_assoc()) {
-                                    echo "<img class='' src='../user/" . $row["path"] . "'>";
+                                foreach ($fotoPengajuan as $foto) {
+                                    if ($foto["pengajuan_id"] == $row["pengajuan_id"]) {
+                                        echo "<img class='' src='../user/" . $foto["path"] . "'>";
+                                    }
                                 }
 
+                                // while ($rowFoto = $result["fotoPengajuanBefore"]->fetch_assoc()):
+                                //     echo "". htmlspecialchars("Test");
+                                //     if ($rowFoto["pengajuan_id"] == $row["pengajuan_id"]) {
+                                //         echo "<img class='' src='../user/" . $rowFoto["path"] . "'>";
+                                //     }
+                                // endwhile;
+                        
                                 ?>
                             </td>
                             <td>
                                 <?php
 
-                                while ($row = $result["fotoPengajuanAfter"]->fetch_assoc()) {
-                                    echo "<img class='' src='../user/" . $row["path"] . "'>";
-                                }
+                                // while ($rowFoto = $result["fotoPengajuanAfter"]->fetch_assoc()) {
+                                //     if ($rowFoto["pengajuan_id"] == $row["pengajuan_id"]) {
+                                //         echo "<img class='' src='../user/" . $rowFoto["path"] . "'>";
+                                //     }
+                                // }
 
                                 ?>
                             </td>
@@ -267,7 +279,7 @@
         });
 
         downloadButton.addEventListener("click", function () {
-            const headers = [headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI,"","","","",headerJ];
+            const headers = [headerA, headerB, headerC, headerD, headerE, headerF, headerG, headerH, headerI, "", "", "", "", headerJ];
             const results = <?php echo json_encode($result) ?>;
             const formData = new FormData(document.getElementById('download-form'));
             formData.append("headers", headers);

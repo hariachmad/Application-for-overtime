@@ -26,5 +26,10 @@ class ListPengajuanController
         $xlsxService = new XlsxService($headers);
     }
 
+    public function create($pengajuan){
+        $listPengajuanModel = new ListPengajuanModel();
+        $result = $listPengajuanModel->create($pengajuan);
+        return $result;
+    }
 }
 ?>

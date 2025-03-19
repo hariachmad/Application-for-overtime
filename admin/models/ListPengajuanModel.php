@@ -2,6 +2,7 @@
 
 
 require_once realpath(dirname(__FILE__) . "../../../repository/databaseService.php");
+require_once(__DIR__ . "/../models/ListPengajuanModel.php");
 class ListPengajuanModel
 {
     private $conn;
@@ -13,6 +14,54 @@ class ListPengajuanModel
         $this->conn = $databaseService->getConn();
     }
 
+    public function create($pengajuan)
+    {
+        $karyawan_id = $pengajuan["karyawan_id"];
+        $tanggal_lembur = $pengajuan["tanggal_lembur"];
+        $jenis_proyek = $pengajuan["jenis_proyek"];
+        $nama_proyek = $pengajuan["nama_proyek"];
+        $jam_mulai = $pengajuan["jam_mulai"];
+        $jam_selesai = $pengajuan["jam_selesai"];
+        $alasan_lembur = $pengajuan["alasan_lembur"];
+        $daftar_pekerjaan = $pengajuan["daftar_pekerjaan"];
+        $mulai_lembur = strtotime($pengajuan["jam_mulai"] . ":00");
+        $selesai_lembur = strtotime($pengajuan["jam_selesai"] . ":00");
+        $selisihLembur = $selesai_lembur - $mulai_lembur;
+        $selisihDec = number_format($selisihLembur / 3600, 2);
+        $durasiLembur = gmdate("H:i:s", $selisihLembur);
+
+        $query = "INSERT INTO pengajuan_lembur (
+            karyawan_id, 
+            tanggal_lembur, 
+            jenis_proyek,
+            nama_proyek,
+            jam_mulai,
+            jam_selesai,
+            durasi_lembur,
+            alasan_lembur,
+            daftar_pekerjaan,
+            status_pengajuan,
+            tanggal_pengajuan
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())";
+        $stmt = $this->conn->prepare($query);
+        if ($stmt) {
+            $stmt->bind_param("isssssdss",
+                $karyawan_id,
+                $tanggal_lembur,
+                $jenis_proyek,
+                $nama_proyek,
+                $jam_mulai,
+                $jam_selesai,
+                $selisihDec,
+                $alasan_lembur,
+                $daftar_pekerjaan
+            );
+
+        }
+        $stmt->execute();
+        $stmt->close();
+        return true;
+    }
     public function getRows()
     {
         $search = isset($_GET['search']) ? $this->conn->real_escape_string($_GET['search']) : '';

@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . "../../admin/controllers/ListPengajuanController.php");
+require_once(__DIR__ . "../models/FotoPengajuan.php");
 
 session_start();
 error_reporting(E_ALL);
@@ -8,7 +9,8 @@ ini_set('display_errors', 1);
 
 $listPengajuanController = new ListPengajuanController();
 $databaseService = new DatabaseService();
-$karyawan_id= $_SESSION['user_id'];
+$fotoPengajuan = new FotoPengajuan();
+$karyawan_id = $_SESSION['user_id'];
 $conn = $databaseService->getConn();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,8 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mkdir($upload_dir, 0777, true);
     }
 
-    $foto_sebelum_path = "";
-    $foto_sesudah_path = "";
+    $foto_sebelum_path = [];
+    $foto_sesudah_path = [];
     $upload_error = false;
 
     if (isset($_FILES['foto_sebelum']) && !empty($_FILES['foto_sebelum']['name'][0])) {
@@ -37,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         for ($i = 0; $i < $fileCount; $i++) {
             $foto_sebelum = $_FILES["foto_sebelum"]["name"][$i];
             $foto_sebelum_name = time() . '_before_' . basename($foto_sebelum);
-            $foto_sebelum_path = "uploads/" . $foto_sebelum_name;
+            // $foto_sebelum_path = 'uploads/' . $foto_sebelum_name;
+            array_push($foto_sebelum_path,'uploads/'.$foto_sebelum_name);
 
             if (!move_uploaded_file($_FILES["foto_sebelum"]["tmp_name"][$i], $upload_dir . $foto_sebelum_name)) {
                 $error_message = "Gagal mengupload foto sebelum lembur";
@@ -76,6 +79,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!$upload_error) {
         if ($listPengajuanController->create($pengajuan)) {
             print ("Berhasil menambahkan lembur");
+            $fileCount = count($_FILES['foto_sebelum']['name']);
+            for ($i = 0; $i < $fileCount; $i++) {
+                $pengajuan = [
+                    "idPengajuanLembur" => $fotoPengajuan->getCurrentId()-1,
+                    "beforeOrAfter" => "before",
+                    "path" => $foto_sebelum_path[$i]
+                ];
+                $fotoPengajuan->create($pengajuan);
+            }
         } else {
             print ("error menambahkan lembur");
         }

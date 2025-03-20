@@ -47,9 +47,9 @@
               <label for="dropdown" class="block text-sm font-medium text-gray-700">Divisi</label>
               <select id="dropdown" name="divisi"
                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="IT">IT</option>
-                <option value="Finance">Finance</option>
-                <option value="Inventory Control">Inventory Control</option>
+                <option value="Sipil">Sipil</option>
+                <option value="Furniture">Furniture</option>
+                <option value="Lainya">Lainya</option>
               </select>
             </div>
             <div id="error-message" class="mt-5" style="color: red;">Password Don't Match / Empty</div>

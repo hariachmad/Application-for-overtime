@@ -46,7 +46,7 @@ class XlsxService
                 $sheet->setCellValue([2, $rowNumber], $row['jenis_proyek']);
                 $sheet->setCellValue([3, $rowNumber], $row['nama_proyek']);
                 $sheet->setCellValue([4, $rowNumber], date('d/m/Y', strtotime($row['tanggal_lembur'])));
-                $sheet->setCellValue([5, $rowNumber], $row['jam_mulai'] . $row['jam_selesai']);
+                $sheet->setCellValue([5, $rowNumber], $row['jam_mulai'] ." - ". $row['jam_selesai']);
                 $sheet->setCellValue([6, $rowNumber], $row['daftar_pekerjaan']);
                 $sheet->setCellValue([7, $rowNumber], $row['status_pengajuan']);
                 $sheet->setCellValue([8, $rowNumber], isset($row['approver_role']) ? $row['approver_role'] : '-');

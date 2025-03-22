@@ -26,6 +26,11 @@ class ListPengajuanModel
         $daftar_pekerjaan = $pengajuan["daftar_pekerjaan"];
         $mulai_lembur = strtotime($pengajuan["jam_mulai"] . ":00");
         $selesai_lembur = strtotime($pengajuan["jam_selesai"] . ":00");
+
+        if($jam_selesai<$jam_mulai){
+            $jam_selesai = $jam_selesai + 86400;
+        }
+
         $selisihLembur = $selesai_lembur - $mulai_lembur;
         $selisihDec = number_format($selisihLembur / 3600, 2);
         $durasiLembur = gmdate("H:i:s", $selisihLembur);

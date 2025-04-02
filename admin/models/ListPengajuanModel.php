@@ -27,8 +27,8 @@ class ListPengajuanModel
         $mulai_lembur = strtotime($pengajuan["jam_mulai"] . ":00");
         $selesai_lembur = strtotime($pengajuan["jam_selesai"] . ":00");
 
-        if($jam_selesai<$jam_mulai){
-            $jam_selesai = $jam_selesai + 86400;
+        if($selesai_lembur<$mulai_lembur){
+            $selesai_lembur = $selesai_lembur + 86400;
         }
 
         $selisihLembur = $selesai_lembur - $mulai_lembur;

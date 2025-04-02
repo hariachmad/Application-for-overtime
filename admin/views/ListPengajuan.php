@@ -192,6 +192,7 @@
                             <td><?php echo htmlspecialchars($row['nama_proyek']); ?></td>
                             <td><?php echo date('d/m/Y', strtotime($row['tanggal_lembur'])); ?></td>
                             <td><?php echo htmlspecialchars($row['jam_mulai']) . ' - ' . htmlspecialchars($row['jam_selesai']); ?>
+                            
                             </td>
                             <td>
                                 <?php

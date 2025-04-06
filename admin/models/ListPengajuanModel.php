@@ -27,7 +27,7 @@ class ListPengajuanModel
         $mulai_lembur = strtotime($pengajuan["jam_mulai"] . ":00");
         $selesai_lembur = strtotime($pengajuan["jam_selesai"] . ":00");
 
-        if($selesai_lembur<$mulai_lembur){
+        if ($selesai_lembur < $mulai_lembur) {
             $selesai_lembur = $selesai_lembur + 86400;
         }
 
@@ -50,7 +50,8 @@ class ListPengajuanModel
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())";
         $stmt = $this->conn->prepare($query);
         if ($stmt) {
-            $stmt->bind_param("isssssdss",
+            $stmt->bind_param(
+                "isssssdss",
                 $karyawan_id,
                 $tanggal_lembur,
                 $jenis_proyek,
@@ -70,6 +71,7 @@ class ListPengajuanModel
     public function getRows()
     {
         $search = isset($_GET['search']) ? $this->conn->real_escape_string($_GET['search']) : '';
+        $dateRange = isset($_GET['rentang_tanggal']) ? $this->conn->real_escape_string($_GET['rentang_tanggal']) : '';
 
         $queryPengajuanLembur = "SELECT 
             pl.pengajuan_id, 
@@ -91,10 +93,28 @@ class ListPengajuanModel
         FROM pengajuan_lembur pl 
         LEFT JOIN karyawan k ON pl.karyawan_id = k.karyawan_id 
         LEFT JOIN admin a1 ON pl.disetujui_oleh = a1.admin_id
-        LEFT JOIN admin a2 ON pl.ditolak_oleh = a2.admin_id";
+        LEFT JOIN admin a2 ON pl.ditolak_oleh = a2.admin_id ";
 
-        if (!empty($search)) {
+        if (!empty($search) & empty($dateRange)) {
             $queryPengajuanLembur .= " WHERE k.username LIKE '%$search%'";
+        } else if(!empty($dateRange) & empty($search)){
+            $dates = explode(" - ", $dateRange);
+            $startDate = trim($dates[0]);
+            $endDate = trim($dates[1]);
+            $newStartDate = DateTime::createFromFormat('d/m/Y', $startDate);
+            $newStartDate = $newStartDate->format('Y-m-d');
+            $newEndDate = DateTime::createFromFormat('d/m/Y', $endDate);
+            $newEndDate = $newEndDate->format('Y-m-d');
+            $queryPengajuanLembur .= "WHERE pl.tanggal_lembur BETWEEN '$newStartDate' AND '$newEndDate'";
+        }else if(!empty($dateRange) & !empty($search)){
+            $dates = explode(" - ", $dateRange);
+            $startDate = trim($dates[0]);
+            $endDate = trim($dates[1]);
+            $newStartDate = DateTime::createFromFormat('d/m/Y', $startDate);
+            $newStartDate = $newStartDate->format('Y-m-d');
+            $newEndDate = DateTime::createFromFormat('d/m/Y', $endDate);
+            $newEndDate = $newEndDate->format('Y-m-d');
+            $queryPengajuanLembur .= "WHERE pl.tanggal_lembur between '$newStartDate' AND '$newEndDate' AND k.username LIKE '%$search%'";
         }
 
         $queryPengajuanLembur .= " ORDER BY pl.tanggal_pengajuan DESC";

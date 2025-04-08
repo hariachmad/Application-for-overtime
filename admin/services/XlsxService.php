@@ -89,7 +89,7 @@ class XlsxService
         }
 
         $writer = new Xlsx($this->spreadsheet);
-        $writer->save('example.xlsx');
+        $writer->save('report/report.xlsx');
 
         var_dump("File Excel Berhasil Dibuat");
         exit();

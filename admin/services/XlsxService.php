@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . "/../../vendor/autoload.php");
 require_once(__DIR__ . "/../models/ListPengajuanModel.php");
+require_once(__DIR__ . "/FileDownload.php");
 
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -46,14 +47,14 @@ class XlsxService
                 $sheet->setCellValue([2, $rowNumber], $row['jenis_proyek']);
                 $sheet->setCellValue([3, $rowNumber], $row['nama_proyek']);
                 $sheet->setCellValue([4, $rowNumber], date('d/m/Y', strtotime($row['tanggal_lembur'])));
-                $sheet->setCellValue([5, $rowNumber], $row['jam_mulai'] ." - ". $row['jam_selesai']);
+                $sheet->setCellValue([5, $rowNumber], $row['jam_mulai'] . " - " . $row['jam_selesai']);
                 $sheet->setCellValue([6, $rowNumber], $row['daftar_pekerjaan']);
                 $sheet->setCellValue([7, $rowNumber], $row['status_pengajuan']);
                 $sheet->setCellValue([8, $rowNumber], isset($row['approver_role']) ? $row['approver_role'] : '-');
 
                 $colsFotoSebelum = ['I', 'J', 'K', 'L', 'M'];
                 $indexColsFotoSebelum = 0;
-                foreach($fotoPengajuan as $rowFoto){
+                foreach ($fotoPengajuan as $rowFoto) {
                     if ($row["pengajuan_id"] == $rowFoto["pengajuan_id"]) {
                         $drawing = new Drawing();
                         $drawing->setName('Foto');
@@ -68,7 +69,7 @@ class XlsxService
                 }
                 $rowNumber = $rowNumber + 1;
                 // while ($rowFoto = $result["fotoPengajuanBefore"]->fetch_assoc()) {
-                    
+
                 // }
 
                 // $colsFotoSesudah = ['N', 'O', 'P', 'Q', 'R'];
@@ -87,12 +88,8 @@ class XlsxService
 
             }
         }
-
         $writer = new Xlsx($this->spreadsheet);
         $writer->save('report/report.xlsx');
-
-        var_dump("File Excel Berhasil Dibuat");
-        exit();
     }
 }
 ?>

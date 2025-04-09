@@ -22,11 +22,14 @@ class ListPengajuanController
         include realpath(dirname(__FILE__) . "../../views/ListPengajuan.php");
     }
 
-    public function download($headers){
+    public function generate($headers)
+    {
         $xlsxService = new XlsxService($headers);
+
     }
 
-    public function create($pengajuan){
+    public function create($pengajuan)
+    {
         $listPengajuanModel = new ListPengajuanModel();
         $result = $listPengajuanModel->create($pengajuan);
         return $result;

@@ -6,6 +6,7 @@ require_once(__DIR__ . "/utils/Utils.php");
 require_once(__DIR__ . "/admin/controllers/LoginController.php");
 require_once(__DIR__ . "/admin/controllers/DataKaryawanController.php");
 require_once(__DIR__ . "/admin/controllers/TambahKaryawanController.php");
+require_once(__DIR__ . "/admin/services/FileDownload.php");
 
 $error_message = "";
 $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -20,7 +21,7 @@ if ($requestMethod == "POST") {
         case 'download':
             $headers= $_POST['headers'];
             $controller = new ListPengajuanController();
-            $controller->download($headers);
+            $controller->generate($headers);
         case 'approve':
             $id = $_POST['pengajuan_id'];
             $admin_id = $_SESSION['user_id'];
@@ -60,6 +61,9 @@ if ($requestMethod == "POST") {
             if ($result) {
                 $controller->index();
             }
+            break;
+        case 'download-generate':
+            FileDownload::DownloadXlsxFile();
             break;
         default:
             echo htmlspecialchars('400 POST NOT FOUND');

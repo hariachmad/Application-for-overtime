@@ -163,7 +163,12 @@
             </form>
             <form class="search-form" id="download-form">
                 <input type="hidden" name="form_type" value="download">
-                <button id="download-button">Download</button>
+                <button id="download-button">Generate</button>
+            </form>
+
+            <form class="search-form" action="index.php" method="post">
+                <input type="hidden" name="form_type" value="download-generate">
+                <button id="download-button" type="submit">Download</button>
             </form>
         </div>
         <div style="margin-left: 300px;">
@@ -312,7 +317,6 @@
             const results = <?php echo json_encode($result) ?>;
             const formData = new FormData(document.getElementById('download-form'));
             formData.append("headers", headers);
-            console.log("results= ", results);
             fetch('../index.php', {
                 method: 'POST',
                 body: formData
@@ -320,7 +324,7 @@
                 .then(response => response.text())
                 .then(data => {
                     console.log(data);
-                    alert('Berhasil Di Download');
+                    alert('Generate File Berhasil');
                 })
                 .catch(error => {
                     console.error('Error:', error);

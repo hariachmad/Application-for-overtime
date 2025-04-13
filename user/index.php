@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $foto_sebelum = $_FILES["foto_sebelum"]["name"][$i];
             $foto_sebelum_name = time() . '_before_' . basename($foto_sebelum);
             // $foto_sebelum_path = 'uploads/' . $foto_sebelum_name;
-            array_push($foto_sebelum_path,'uploads/'.$foto_sebelum_name);
+            array_push($foto_sebelum_path, 'uploads/' . $foto_sebelum_name);
 
             if (!move_uploaded_file($_FILES["foto_sebelum"]["tmp_name"][$i], $upload_dir . $foto_sebelum_name)) {
                 $error_message = "Gagal mengupload foto sebelum lembur";
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $fileCount = count($_FILES['foto_sebelum']['name']);
             for ($i = 0; $i < $fileCount; $i++) {
                 $pengajuan = [
-                    "idPengajuanLembur" => $fotoPengajuan->getCurrentId()-1,
+                    "idPengajuanLembur" => $fotoPengajuan->getCurrentId() - 1,
                     "beforeOrAfter" => "before",
                     "path" => $foto_sebelum_path[$i]
                 ];
@@ -287,6 +287,18 @@ if ($stmt) {
             background-color: white;
         }
     </style>
+    <?php
+
+    function decimalToTime($decimal)
+    {
+        // Pisahkan jam dan menit
+        $hours = floor($decimal); // Ambil bagian jam
+        $minutes = round(($decimal - $hours) * 60); // Hitung menit dari bagian desimal
+    
+        // Format menjadi string "jam:menit"
+        return sprintf("%02d:%02d", $hours, $minutes);
+    }
+    ?>
 </head>
 
 <body>
@@ -402,7 +414,7 @@ if ($stmt) {
                             echo "<tr>";
                             echo "<td>" . date('d/m/Y H:i', strtotime($row["tanggal_pengajuan"])) . "</td>";
                             echo "<td>" . date('d/m/Y', strtotime($row["tanggal_lembur"])) . "</td>";
-                            echo "<td>" . $row["durasi_lembur"] . " jam</td>";
+                            echo "<td>" . decimalToTime(number_format($row['durasi_lembur'], 2)) . " jam</td>";
                             echo "<td>";
                             echo ucfirst($row["status_pengajuan"]);
                             echo "<div class='status-detail'>" . htmlspecialchars($row["approval_status"] ?? '') . "</div>";

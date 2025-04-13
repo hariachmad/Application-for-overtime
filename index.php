@@ -37,7 +37,7 @@ if ($requestMethod == "POST") {
             $admin_id = $_SESSION['user_id'];
             $admin_role = $_SESSION['admin_role'];
             $controller = new PengajuanLemburController();
-            $controller->reject($id, $admin_id, $admin_);
+            $controller->reject($id, $admin_id, $admin_role);
             break;
         case 'update':
             $id = $_POST['id'];
